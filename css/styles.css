@@ -1,0 +1,17 @@
+.tooltip {
+    pointer-events: none;
+}
+
+.chord-tooltip {
+    pointer-events: none;
+
+}
+
+
+#dorm-form {
+    margin-bottom: 2em;
+}
+
+.content {
+    margin-bottom: 5em;
+}

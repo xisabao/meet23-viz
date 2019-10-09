@@ -7,7 +7,6 @@
 
 }
 
-
 #dorm-form {
     margin-bottom: 2em;
 }
@@ -50,11 +49,18 @@ label {
 
 .header img {
     width: 200px;
+    display: inline-block;
 }
 
 .header h1 {
     letter-spacing: 2px;
-    margin-left: 2px;
+    margin-left: 8px;
+    display: inline-block;
+    bottom: 0;
+    vertical-align: bottom;
+    color: #ec4e55;
+    font-weight: 600;
+
 }
 
 h2 {

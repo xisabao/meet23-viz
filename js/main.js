@@ -458,7 +458,7 @@ function createBarChart(data) {
         .attr("width", xscale.bandwidth())
         .attr("height", function (d) { return height - yscale(d.occurrences); })
         .attr("fill", function(d, i) {
-            var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b" ];
+            var colors = ["#b6deef", "#5fd2fa", "#f2666c", "#a05d56", "#6b486b" ];
             return colors[i % 5];
         });
 
@@ -510,7 +510,7 @@ function createBarChart(data) {
                     return height + heightOverview + yOverview(d.occurrences)
             })
             .attr("fill", function(d, i) {
-                var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b" ];
+                var colors = ["#b6deef", "#5fd2fa", "#f2666c", "#a05d56", "#6b486b" ];
                 return colors[i % 5];
             });
 
@@ -569,7 +569,7 @@ function createBarChart(data) {
             .attr("width", xscale.bandwidth())
             .attr("height", function (d) { return height - yscale(d.occurrences); })
             .attr("fill", function(d, i) {
-                var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b" ];
+                var colors = ["#b6deef", "#5fd2fa", "#f2666c", "#a05d56", "#6b486b" ];
                 return colors[i % 5];
             });
 

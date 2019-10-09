@@ -30,7 +30,7 @@ var createChordChart = function(data) {
         "Matthews", "Weld", "Apley Court", "Hollis", "Holworthy", "Lionel", "Mass Hall",
         "Mower", "Stoughton", "Straus", "Canaday", "Thayer"];
     // Margin object with properties for the four directions
-    var margin = {top: 20, right: 10, bottom: 20, left: 40};
+    var margin = {top: 10, right: 10, bottom: 20, left: 40};
 
 // Width and height as the inner dimensions of the chart area
     var width = 840 - margin.left - margin.right,
@@ -43,8 +43,8 @@ var createChordChart = function(data) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var colors = ["#ec4e55", "#b6deef", "#5fd2fa", "#EF7674", "#a05d56",
-        '#BFC0C0', '#CEE7E6', '#F3C969', '#EDFF86', '#FFC914',
+    var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b",
+        '#98cde3', '#30b6e3', '#cc5056', '#9c483e', '#5c2b5c',
         '#43AA8B', '#9197AE', '#EF7674', '#CE84AD', '#F8C0C8',
         '#33658A', '#17BEBB']
 
@@ -189,6 +189,33 @@ function updateDonutCharts() {
 };
 
 function createDonutChart(data, svg) {
+
+    var dorm = d3.select("#dorm-select").property("value");
+
+    var answer_data = data["answers"];
+
+    var width = 100,
+        height = 100
+        margin = 10;
+
+    var radius = Math.min(width, height) / 2 - margin;
+
+    var color = d3.scaleOrdinal()
+        .domain(answer_data)
+        .range(["#ec4e55", "#b6deef", "#5fd2fa", "#6b486b", "#a05d56"])
+
+    var pie = d3.pie()
+        .value(function(d) {
+            return d["value"]["response_hash"][dorm]; })
+
+    var data_ready = pie(d3.entries(answer_data));
+
+
+    var arc = d3.arc()
+        .innerRadius(80)         // This is the size of the donut hole
+        .outerRadius(radius);
+
+
     var tooltip = d3.select("#donut-chart-" +  data["index"].toString())
         .append("div")
         .style("opacity", 0)
@@ -199,11 +226,34 @@ function createDonutChart(data, svg) {
         .style("border-radius", "5px")
         .style("padding", "10px");
 
+    svg.selectAll('path.slices')
+        .data(data_ready)
+        .enter()
+        .append('path')
+        .attr('class', 'slices')
+        .attr('d', arc)
+        .attr('fill', function(d){ return(color(d.data.key)) })
+        .attr("stroke", "black")
+        .attr('pointer-events', 'all')
+        .style("stroke-width", "2px")
+        .style("opacity", 0.7)
+        .attr('transform', 'translate(0, 10)')
+        .on("mouseover", function(d, i) {
+            console.log("ANSWER: " + d.data.value.text);
+            tooltip.html(d.data.value.text)
+                .style("left", 0 + "px")
+                .style("top", 0 + "px")
+                .style("display", null)
+                .style("opacity", 1);
+        })
+        .on("mouseout", function() {
+            tooltip.style("display", "none")
+                .style("opacity", 0); });;
 
     svg.append('text')
         .attr("id", "question-" + data["index"].toString())
         .style("text-anchor", "middle")
-        .attr("dy", 5)
+        .attr("dy", 15)
         .text("Q" + data["index"].toString())
         .on("mouseover", function() {
             tooltip.html(data["text"])
@@ -215,7 +265,24 @@ function createDonutChart(data, svg) {
             .style("display", "none")
             .style("opacity", 0); });
 
-    updateDonutChart(data, svg);
+    svg.selectAll("text.data-label")
+        .data(data_ready)
+        .enter()
+        .append('text')
+        .attr('class', 'data-label')
+        .text(function(d) {
+            var num = d.data.value.response_hash[dorm];
+            if (num > 0) {
+                return num;
+            } else {
+                return "";
+            }
+        }).attr("transform", d => `translate(${arc.centroid(d)})`)
+        .attr('dx', 0)
+        .attr('dy', 10)
+        .attr("font-size", 10)
+        .attr("text-anchor", "middle")
+        .attr("font-weight", "bold");
 
 }
 
@@ -310,7 +377,10 @@ function createBarChart(data) {
     var margin =  {top: 20, right: 10, bottom: 20, left: 40};
     var marginOverview = {top: 30, right: 10, bottom: 20, left: 40};
     var selectorHeight = 40;
-    var width = 600 - margin.left - margin.right;
+
+    var barChartDiv = document.getElementById("bar-chart");
+
+    var width = Math.min(barChartDiv.clientWidth, 800) - margin.left - margin.right;
     var height = 400 - margin.top - margin.bottom - selectorHeight;
     var heightOverview = 80 - marginOverview.top - marginOverview.bottom;
 
@@ -356,14 +426,14 @@ function createBarChart(data) {
         .attr("class", "bar")
         .attr("x", function (d) { return xscale(d.word); })
         .attr("y", function (d) { return yscale(d.occurrences); })
+        .attr("stroke", "black")
+        .style("stroke-width", "2px")
+        .style("opacity", 0.7)
         .attr("width", xscale.bandwidth())
         .attr("height", function (d) { return height - yscale(d.occurrences); })
         .attr("fill", function(d, i) {
-            if (i % 2 == 0) {
-                return "#5fd2fa";
-            } else {
-                return "#b6deef";
-            }
+            var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b" ];
+            return colors[i % 5];
         });
 
     var textLabels = svg.selectAll("text.occurrences-label")
@@ -374,10 +444,13 @@ function createBarChart(data) {
             return xscale(d.word) + 1.2*xscale.bandwidth();
         })
         .attr("y", function(d) {
-            return yscale(d.occurrences) + 5;
+            return yscale(d.occurrences);
         })
+        .attr("dx", 4)
+        .attr("dy", 8)
         .attr("class", "occurrences-label")
         .attr("text-anchor", "middle")
+        .attr("font-size", "0.8em")
         .attr("fill", "black")
         .text(function(d) {
             return d.occurrences;
@@ -410,7 +483,11 @@ function createBarChart(data) {
             .attr("y", function(d) {
                     return height + heightOverview + yOverview(d.occurrences)
             })
-            .attr("fill", "#b6deef");
+            .attr("fill", function(d, i) {
+                var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b" ];
+                return colors[i % 5];
+            });
+
 
         var displayed = d3.scaleQuantize()
             .domain([0, width])
@@ -421,13 +498,13 @@ function createBarChart(data) {
             .attr("class", "mover")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("fill", "#ec4e55")
+            .attr("fill", "#a3a3a3")
             .attr("height", selectorHeight)
             .attr("width", Math.round(numBars * width/data.length))
             .attr("pointer-events", "all")
             .attr("cursor", "ew-resize")
+            .style("opacity", 0.5)
             .call(d3.drag().on("drag", display));
-        // TODO: make scroller look more like a scroller
 
     }
     function display () {
@@ -460,15 +537,16 @@ function createBarChart(data) {
             .merge(rects)
             .attr("x", function (d) { return xscale(d.word); })
             .attr("y", function (d) { return yscale(d.occurrences); })
+            .attr("stroke", "black")
+            .style("stroke-width", "2px")
+            .style("opacity", 0.7)
             .attr("width", xscale.bandwidth())
             .attr("height", function (d) { return height - yscale(d.occurrences); })
             .attr("fill", function(d, i) {
-                if (i % 2 == 0) {
-                    return "#5fd2fa";
-                } else {
-                    return "#b6deef";
-                }
+                var colors = ["#b6deef", "#5fd2fa", "#f07379", "#a05d56", "#6b486b" ];
+                return colors[i % 5];
             });
+
 
         rects.exit().remove();
 
@@ -482,9 +560,11 @@ function createBarChart(data) {
                 return xscale(d.word) + 1.2*xscale.bandwidth();
             })
             .attr("y", function(d) {
-                return yscale(d.occurrences) + 5;
+                return yscale(d.occurrences);
             })
+            .attr("dy", 8)
             .attr("class", "occurrences-label")
+            .attr("font-size", "0.8em")
             .attr("text-anchor", "middle")
             .attr("fill", "black")
             .text(function(d) {

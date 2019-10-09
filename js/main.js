@@ -1,6 +1,5 @@
 
 d3.json("data/match_data.json",function(data) {
-    console.log(data);
 
     createChordChart(data);
 });
@@ -8,7 +7,6 @@ d3.json("data/match_data.json",function(data) {
 var survey_data;
 
 d3.json("data/survey_data.json", function(data) {
-    console.log(data);
 
     survey_data = data;
 
@@ -18,7 +16,6 @@ d3.json("data/survey_data.json", function(data) {
 d3.select("#dorm-select").on("change", updateDonutCharts);
 
 d3.json("data/bio_data.json", function(data) {
-    console.log(data);
 
     createBarChart(data);
 });
@@ -120,7 +117,6 @@ var createChordChart = function(data) {
                 d3.select("#arcLabel" + i).style("font-weight", "normal");
 
             } else {
-                console.log("clicked label");
                 d3.selectAll(".outerArc").style("fill", "c9c9c9");
                 d3.selectAll(".arcPath").style("fill", "c9c9c9");
                 d3.select("#outerArc" + i).style("fill", colors[i]);
@@ -264,7 +260,6 @@ function createDonutChart(data, svg) {
         .style("opacity", 0.7)
         .attr('transform', 'translate(0, 10)')
         .on("mouseover", function(d, i) {
-            console.log("ANSWER: " + d.data.value.text);
             tooltip.html(d.data.value.text)
                 .style("left", 0 + "px")
                 .style("top", 0 + "px")
@@ -355,7 +350,6 @@ function updateDonutChart(data, svg) {
         .style("stroke-width", "2px")
         .style("opacity", 0.7)
         .on("mouseover", function(d, i) {
-        console.log("ANSWER: " + d.data.value.text);
         tooltip.html(d.data.value.text)
             .style("left", 0 + "px")
             .style("top", 0 + "px")

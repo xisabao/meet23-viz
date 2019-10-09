@@ -19,3 +19,44 @@
 label {
     margin-right: 2em;
 }
+
+.question-label {
+    cursor: pointer;
+}
+
+.slices {
+    cursor: pointer;
+}
+
+.outerArc {
+    cursor: pointer;
+}
+
+.arcPath {
+    cursor: pointer;
+}
+
+.arcLabel {
+    cursor: pointer;
+}
+
+.data-label {
+    cursor: pointer;
+}
+
+.header {
+    margin: 3em 0;
+}
+
+.header img {
+    width: 200px;
+}
+
+.header h1 {
+    letter-spacing: 2px;
+    margin-left: 2px;
+}
+
+h2 {
+    font-size: 32px;
+}

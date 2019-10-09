@@ -64,12 +64,14 @@ var createChordChart = function(data) {
 
     var outerArcGroups = arcGroup
         .selectAll("g")
-        .data(function(d) { return d.groups; })
+        .data(function(d) {
+            return d.groups; })
         .enter()
         .append("path")
         .attr("class", "outerArc")
         .attr("id", function(d, i) { return "outerArc" + i; })
-        .style("fill", function(d,i){ return colors[i] })
+        .style("fill", function(d,i){
+            return colors[i] })
         .style("stroke", "black")
         .attr("d", arc)
         .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
@@ -79,6 +81,9 @@ var createChordChart = function(data) {
         .enter()
         .append("text")
         .attr("class", "arcLabel")
+        .attr("id", function(d, i) {
+            return "arcLabel" + i;
+        })
         .attr('x', function (d) { return arc.centroid(d)[0] })
         .attr('y', function (d) { return arc.centroid(d)[1] })
         .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
@@ -100,14 +105,31 @@ var createChordChart = function(data) {
             }
         })
         .attr('text-anchor', 'middle')
-        // .attr("x", 0)
-        // .attr("dy", -30)
-        // .append("textPath")
-        // .attr("xlink:href", function(d, i) { return "#outerArc" + i; })
         .text(function(d) {
             return dorms[d.index]; })
         .style("font-size", "0.8em")
-        .style("fill", "black");
+        .style("fill", "black")
+        .on("click", function(d, i) {
+            var arcLabel = d3.select("#arcLabel" + i);
+
+            if (arcLabel.style("font-weight") === "bold") {
+                for (var j = 0; j < colors.length; j++ ) {
+                    d3.select("#outerArc" + j).style("fill", colors[j]);
+                    d3.selectAll(".pathSource" + j).style("fill", colors[j]);
+                }
+                d3.select("#arcLabel" + i).style("font-weight", "normal");
+
+            } else {
+                console.log("clicked label");
+                d3.selectAll(".outerArc").style("fill", "c9c9c9");
+                d3.selectAll(".arcPath").style("fill", "c9c9c9");
+                d3.select("#outerArc" + i).style("fill", colors[i]);
+                d3.selectAll(".pathSource" + i).style("fill", colors[i]);
+                d3.selectAll(".pathTarget" + i).style("fill", colors[i]);
+                d3.select("#arcLabel" + i).style("font-weight", "bold");
+            }
+
+        });
 
     var tooltip = d3.select('#chord-chart')
         .append("div")
@@ -146,10 +168,13 @@ var createChordChart = function(data) {
         .data(function(d) { return d; })
         .enter()
         .append("path")
+        .attr("class", function(d) {
+            return "arcPath pathSource" + d.source.index + " pathTarget" + d.target.index;
+        })
         .attr("d", d3.ribbon()
             .radius(300)
         )
-        .style("fill", function(d){ return(colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
+        .style("fill", function(d, i){ return(colors[d.source.index]) }) // colors depend on the source group. Change to target otherwise.
         .style("stroke", "black")
         .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
         .on("mouseover", showTooltip)
@@ -252,6 +277,7 @@ function createDonutChart(data, svg) {
 
     svg.append('text')
         .attr("id", "question-" + data["index"].toString())
+        .attr("class", "question-label")
         .style("text-anchor", "middle")
         .attr("dy", 15)
         .text("Q" + data["index"].toString())

@@ -1,19 +1,22 @@
 body {
   font-family: 'Roboto Mono', monospace;
+  background-color: #f5f2f2;
+  color: #403e3e;
 }
 
 .content {
   width: 80%;
-  margin-top: 4em;
+  margin-top: 16%;
 }
 
 h1 {
   margin-bottom: 1em;
+  font-weight: 600;
 }
 
 .icon {
   font-size: 2em;
-  margin-left: 1em;
+  margin-right: 1em;
   margin-top: -0.3em;
   display: inline-block;
 
@@ -29,20 +32,22 @@ h1 {
 }
 
 .icon a:hover {
-  color: #7272ba;
+  color: #7071b3;
   text-decoration: none;
 }
 
 #profile-img {
   width: 100%;
   border-radius: 100%;
+  max-width: 300px;
+  margin: auto;
 }
 
 a {
-  color: #9192e3;
+  color: #898ad9;
 }
 
 a:hover {
   text-decoration: none;
-  color: #7272ba;
+  color: #7071b3;
 }

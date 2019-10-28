@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meet23 Visualizations</title>
+    <link href="https://fonts.googleapis.com/css?family=Chakra+Petch:400,700|Hind:400,500,600|Six+Caps|Open+Sans:300,400"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+<body>
+<div class="container content">
+    <div class="header">
+        <img src="img/meet23.png"  width="200"/>
+        <h1>STATISTICS</h1>
+    </div>
+
+    <div class="row">
+
+        <div><h2>Matches between dorms</h2>Click on a dorm's name to isolate it!</div>
+        <div id="chord-chart"></div>
+    </div>
+
+    <h2>Survey answers</h2>
+    <form class="form-inline">
+        <div class="form-group" id="dorm-form">
+            <label for="dorm-select">By Dorm:  </label>
+            <select class="form-control" id="dorm-select">
+                <option value="total">Total</option>
+                <option value="Apley Court">Apley Court</option>
+                <option value="Canaday">Canaday</option>
+                <option value="Grays">Grays</option>
+                <option value="Greenough">Greenough</option>
+                <option value="Hollis">Hollis</option>
+                <option value="Holworthy">Holworthy</option>
+                <option value="Hurlbut">Hurlbut</option>
+                <option value="Lionel">Lionel</option>
+                <option value="Mass Hall">Mass Hall</option>
+                <option value="Matthews">Matthews</option>
+                <option value="Mower">Mower</option>
+                <option value="Pennypacker">Pennypacker</option>
+                <option value="Stoughton">Stoughton</option>
+                <option value="Straus">Straus</option>
+                <option value="Thayer">Thayer</option>
+                <option value="Weld">Weld</option>
+                <option value="Wigglesworth">Wigglesworth</option>
+
+            </select>
+        </div>
+    </form>
+    <div class="row" id="donut-charts">
+    </div>
+
+    <h2>Bio word frequencies</h2>
+    <div class="row" id="bar-chart">
+    </div>
+</div>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

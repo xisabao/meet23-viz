@@ -135,7 +135,9 @@ function initialize(error, topoData, voteData) {
         .append('g')
         .attr('class', 'map-base')
         .selectAll('path')
-        .data(world)
+        .data(world);
+
+     mapSelect.exit().remove();
 
       var map = mapSelect.enter()
         .append('path')

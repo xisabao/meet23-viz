@@ -93,6 +93,8 @@ function initialize(error, topoData, voteData) {
       update(svg, null);
   });
 
+  svg.append('g')
+      .attr('class', 'map-base')
 
   update(svg, null);
 
@@ -130,10 +132,9 @@ function initialize(error, topoData, voteData) {
 
     //var unmatchedCountries = countries.filter((c) => !topoCountries.includes(c));
     //console.log(unmatchedCountries);
+    var mapBase = svg.select('.map-base');
 
-     var mapSelect = svg
-        .append('g')
-        .attr('class', 'map-base')
+     var mapSelect = mapBase
         .selectAll('path')
         .data(world);
 

@@ -6,7 +6,7 @@ body {
 
 .content {
   width: 80%;
-  margin-top: 16%;
+  margin-top: 12%;
 }
 
 h1 {
@@ -23,7 +23,6 @@ h1 {
 }
 
 .bio {
-  margin-top: 1em;
   padding-left: 2em;
 }
 
@@ -40,7 +39,7 @@ h1 {
   width: 100%;
   border-radius: 100%;
   max-width: 300px;
-  margin: auto;
+  margin: 2em auto;
 }
 
 a {

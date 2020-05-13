@@ -5,8 +5,7 @@ body {
 }
 
 .content {
-  width: 80%;
-  margin-top: 12%;
+  padding: 6em 2em;
 }
 
 h1 {
@@ -23,7 +22,6 @@ h1 {
 }
 
 .bio {
-  padding-left: 2em;
 }
 
 .icon a {
